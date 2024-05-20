@@ -19,5 +19,4 @@ public class Main {
         System.out.println(kvadrat.perimetr());
         System.out.println(kvadrat.sahe());
     }
-
 }
