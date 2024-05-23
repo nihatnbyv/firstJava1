@@ -28,5 +28,6 @@ public class StudentApp {
 
         Arrays.sort(students, (s1, s2) -> Long.compare(s1.getAge(), s2.getAge()));
         System.out.println(Arrays.toString(students));
+
     }
 }
