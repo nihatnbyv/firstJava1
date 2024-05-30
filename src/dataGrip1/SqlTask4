@@ -1,0 +1,134 @@
+create table Categories
+(
+    CategoryID serial primary key,
+    Name       varchar(50)
+);
+
+create table Products
+(
+    ProductID   serial primary key,
+    Name        varchar(50),
+    Price       integer,
+    Quantity    integer,
+    Description varchar(50),
+    CategoryID  integer,
+    foreign key (CategoryID) references Categories (CategoryID)
+);
+
+create table Customers
+(
+    CustomerID  serial primary key,
+    FirstName   varchar(50),
+    LastName    varchar(50),
+    Address     varchar(50),
+    Email       varchar(30),
+    PhoneNumber integer
+);
+
+create table Orders
+(
+    OrderID    serial primary key,
+    CustomerID integer,
+    foreign key (CustomerID) references Customers (CustomerID),
+    OrderDate  date
+);
+
+
+create table OrderDetails
+(
+    OrderDetailID serial primary key,
+    OrderID       integer,
+    ProductID     integer,
+    Quantity      integer,
+    foreign key (OrderID) references Orders (OrderID),
+    foreign key (ProductID) references Products (ProductID)
+);
+
+INSERT INTO Products (Name, Price, Quantity, Description, categoryid)
+VALUES ('Product A', 10.99, 10, 'Modern', 1),
+       ('Product B', 25.99, 20, 'New', 2),
+       ('Product C', 5.99, 25, 'Ancient', 3);
+
+insert into Categories (Name)
+values ('Electronics'),
+       ('Home & Garden'),
+       ('Books');
+
+INSERT INTO Customers (FirstName, LastName, Address, Email, PhoneNumber)
+VALUES ('Bob', 'Carlos', 'Germany', 'info@acme.com', 123 - 456 - 7890),
+       ('John', 'Wilson', 'England', 'info@xyz.com', 987 - 654 - 3210),
+       ('Mike', 'Corleone', 'Italy', 'info@abc.com', 555 - 555 - 5555);
+
+insert into Orders (CustomerID, OrderDate)
+values (1, '2023-06-01'),
+       (2, '2023-06-05'),
+       (3, '2023-06-10');
+
+insert into OrderDetails (OrderID, ProductID, Quantity)
+values (1, 3, 8),
+       (2, 1, 5),
+       (3, 1, 10);
+
+
+-- Get a list of all products.
+select *
+from Products;
+
+-- Get a list of all categories of products.
+select *
+from products
+join Categories C on C.CategoryID = products.CategoryID;
+
+-- Get a list of all customers.
+select *
+from Customers;
+
+-- Get a list of all orders.
+select *
+from Orders;
+
+-- Get a list of all order details.
+select *
+from OrderDetails;
+
+-- Get information about a specific product by its ID.
+select *
+from Products
+where ProductID = 1;
+
+-- Get a list of products in a specific category.
+select *
+from Products
+join Categories C on C.CategoryID = Products.CategoryID
+where C.CategoryID = 1;
+
+-- Get information about a customer by their ID.
+select *
+from Customers
+where CustomerID = 1;
+
+-- Get a list of orders for a specific customer.
+select *
+from Orders
+join Customers C on C.CustomerID = Orders.CustomerID
+where C.CustomerID = 1;
+
+-- Get a list of order details for a specific order.
+select *
+from OrderDetails
+join Orders O on O.OrderID = OrderDetails.OrderID
+where CustomerID = 1;
+
+-- Update the price of a product by its ID.
+update Products
+set price = 1000
+where ProductID = 2;
+
+-- Add a new product
+insert into Products (Name, Price, Quantity, Description, CategoryID)
+values ('Milk', 3, 10, 'New', 3);
+
+-- Delete a product by its ID.
+delete
+from Products
+where ProductID = 2;
